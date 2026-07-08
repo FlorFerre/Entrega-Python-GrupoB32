@@ -9,7 +9,7 @@ Comisión: k1.2
 
 El programa es una aplicación de consola desarrollada en Python que simula el sistema de gestión de ventas diarias para un local de comida rápida. Su objetivo es doble: atender a los clientes y registrar las métricas del negocio
 
-Video demostrativo: 
+Video demostrativo: https://youtu.be/ldJFunR47E4?si=1aJ1JGNy_dDsaO7F
 
 Las características que posee este trabajo son:  
 Módulo Cliente: Armado de pedido por códigos, descuento automático del 10% en compras mayores a $10.000 y selección de medio de pago.
