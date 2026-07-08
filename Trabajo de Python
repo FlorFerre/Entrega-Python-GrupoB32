@@ -1,0 +1,195 @@
+"""
+SISTEMA DE PEDIDOS DE COMIDA
+============================
+Trabajo práctico - Programación
+Versión simple utilizando:
+- Estructuras condicionales
+- Estructuras repetitivas
+- Funciones
+- Validaciones
+- Acumuladores y contadores
+- Modularización básica
+- Manejo básico de errores
+"""
+
+# DATOS DEL SISTEMA (listas paralelas)
+
+codigos =  [1, 2, 3, 4, 5, 6, 7]
+nombres =  ["Hamburguesa", "Papas Fritas", "Pizza", "Empanada", "Gaseosa", "Agua", "Helado"]
+precios =  [3500, 2000, 5500, 900, 1500, 1000, 2200]
+
+# Acumuladores y contadores generales del día
+total_recaudado = 0
+cantidad_pedidos = 0
+
+# Funciones para el funcionamiento
+1
+
+def mostrar_menu_productos():
+    """Muestra el listado de productos disponibles."""
+    print("\n--- PRODUCTOS DISPONIBLES ---")
+    i = 0
+    while i < len(codigos):
+        print(f"{codigos[i]} - {nombres[i]} - ${precios[i]}")
+        i = i + 1
+
+
+def buscar_precio(codigo):
+    """Recibe un código de producto y devuelve su precio.
+    Si no existe, devuelve -1."""
+    i = 0
+    while i < len(codigos):
+        if codigos[i] == codigo:
+            return precios[i]
+        i = i + 1
+    return -1
+
+
+def buscar_nombre(codigo):
+    """Recibe un código de producto y devuelve su nombre."""
+    i = 0
+    while i < len(codigos):
+        if codigos[i] == codigo:
+            return nombres[i]
+        i = i + 1
+    return "Desconocido"
+
+
+def pedir_numero_entero(mensaje):
+    """Pide un número entero al usuario, validando que sea correcto."""
+    numero_valido = False
+    numero = 0
+    while numero_valido == False:
+        try:
+            numero = int(input(mensaje))
+            numero_valido = True
+        except ValueError:
+            print("Error: debe ingresar un número entero válido.")
+    return numero
+
+
+def armar_pedido():
+    """Permite armar un pedido. Devuelve el importe total del pedido."""
+    subtotal_pedido = 0
+    cantidad_items = 0
+    seguir = True
+
+    mostrar_menu_productos()
+    print("Ingrese 0 como código para terminar el pedido.")
+
+    while seguir == True:
+        codigo = pedir_numero_entero("Ingrese código de producto: ")
+
+        if codigo == 0:
+            seguir = False
+        else:
+            precio = buscar_precio(codigo)
+            if precio == -1:
+                print("Error: el código ingresado no existe.")
+            else:
+                cantidad = pedir_numero_entero("Ingrese la cantidad: ")
+                if cantidad <= 0:
+                    print("Error: la cantidad debe ser mayor a 0.")
+                else:
+                    importe = precio * cantidad
+                    subtotal_pedido = subtotal_pedido + importe
+                    cantidad_items = cantidad_items + cantidad
+                    nombre_producto = buscar_nombre(codigo)
+                    print(f"Se agregó: {cantidad} x {nombre_producto} = ${importe}")
+
+    if cantidad_items == 0:
+        print("El pedido quedó vacío, no se cobrará nada.")
+
+    return subtotal_pedido
+
+
+def aplicar_descuento(importe):
+    """Aplica un 10% de descuento si el importe supera $10000."""
+    if importe > 10000:
+        descuento = importe * 0.10
+        print(f"¡Felicitaciones! Por superar los $10000 se aplica 10% de descuento (-${descuento:.2f})")
+        importe_final = importe - descuento
+    else:
+        importe_final = importe
+    return importe_final
+
+
+def elegir_medio_pago():
+    """Muestra los medios de pago y devuelve el elegido por el usuario."""
+    opcion_valida = False
+    medio = ""
+    while opcion_valida == False:
+        print("\nMedios de pago:")
+        print("1 - Efectivo")
+        print("2 - Tarjeta de débito")
+        print("3 - Tarjeta de crédito")
+        opcion = pedir_numero_entero("Seleccione una opción: ")
+
+        if opcion == 1:
+            medio = "Efectivo"
+            opcion_valida = True
+        elif opcion == 2:
+            medio = "Tarjeta de débito"
+            opcion_valida = True
+        elif opcion == 3:
+            medio = "Tarjeta de crédito"
+            opcion_valida = True
+        else:
+            print("Error: opción de pago inválida, intente nuevamente.")
+
+    return medio
+
+
+def mostrar_comprobante(importe, medio_pago):
+    """Muestra el resumen final del pedido."""
+    print("\n----- COMPROBANTE -----")
+    print(f"Medio de pago: {medio_pago}")
+    print(f"Total a pagar: ${importe:.2f}")
+    print("------------------------")
+
+
+def mostrar_estadisticas():
+    """Muestra estadísticas generales de los pedidos del día."""
+    print("\n--- ESTADÍSTICAS DEL DÍA ---")
+    print(f"Cantidad de pedidos realizados: {cantidad_pedidos}")
+    print(f"Total recaudado: ${total_recaudado:.2f}")
+    if cantidad_pedidos > 0:
+        promedio = total_recaudado / cantidad_pedidos
+        print(f"Promedio por pedido: ${promedio:.2f}")
+
+# PROGRAMA PRINCIPAL
+
+def main():
+    global total_recaudado, cantidad_pedidos
+
+    continuar = True
+    while continuar == True:
+        print("\n========== MENÚ PRINCIPAL ==========")
+        print("1 - Realizar pedido")
+        print("2 - Ver estadísticas del día")
+        print("3 - Salir")
+        opcion = pedir_numero_entero("Seleccione una opción: ")
+
+        if opcion == 1:
+            subtotal = armar_pedido()
+            if subtotal > 0:
+                total_final = aplicar_descuento(subtotal)
+                medio_pago = elegir_medio_pago()
+                mostrar_comprobante(total_final, medio_pago)
+
+                # Actualizamos acumulador y contador
+                total_recaudado = total_recaudado + total_final
+                cantidad_pedidos = cantidad_pedidos + 1
+
+        elif opcion == 2:
+            mostrar_estadisticas()
+
+        elif opcion == 3:
+            continuar = False
+            print("Saliendo del sistema. ¡Hasta luego!")
+
+        else:
+            print("Error: opción inválida, intente nuevamente.")
+
+
+main()
