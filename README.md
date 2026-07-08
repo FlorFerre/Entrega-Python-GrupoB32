@@ -17,3 +17,5 @@ Módulo Administración: Reporte con total recaudado, cantidad de pedidos y gast
 
 Los conceptos de la materia (Algoritmo y Estructura de Datos) que utilizamos fueron: las listas paralelas para almecnar el menú y los precios: bucles while para menús y condicionales if/else: distintas funciones con retorno y parametros que funcionan para dividir tareas; y el uso de try/excep para evitar que el programa falle si se ingresan letras en lugar de números 
 Estructuras de datos: Listas paralelas para almacenar el menú y precios.
+
+Para el desarrollo de este proyecto se utilizó la inteligencia artificial Gemini, empleada como asistente técnico para optimizar la estructura didáctica del repositorio mediante la creación de versiones previas del código, redactar la documentación técnica del sistema y diseñar las instrucciones de ejecución para el usuario final.
